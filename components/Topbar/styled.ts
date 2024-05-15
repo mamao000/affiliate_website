@@ -7,7 +7,7 @@ import { BREAKPOINT } from "@/constants";
 export const NavBar = styled(Navbar)``;
 
 export const NavBarBrand = styled(Navbar.Brand)`
-  padding: 10px;
+  padding: 0.5em;
 `;
 
 export const Navigation = styled(Nav)`
@@ -26,11 +26,11 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 12px;
+  margin: 0 1em;
 
   @media ${BREAKPOINT.MOBILE} {
     justify-content: start;
-    gap: 12px;
+    gap: 1em;
   }
 `;
 
@@ -41,7 +41,7 @@ export const NavBarCollapse = styled(NavBar.Collapse)`
 export const MenuButton = styled.button`
   background-color: transparent;
   border: none;
-  padding: 12px 12px;
+  padding: 1em;
   cursor: pointer;
   display: none;
 
@@ -51,14 +51,13 @@ export const MenuButton = styled.button`
 `;
 
 export const MenuIcon = styled.img`
-  width: 24px;
-  height: 24px;
+  max-width: 2em;
 `;
 
 export const Separator = styled.div`
   width: 100%;
   border-bottom: 1px solid #ccc; /* Example border style */
-  margin: 20px 0; /* Example margin */
+  margin: 1em 0; /* Example margin */
 `;
 
 export const SideBarItem = styled.div`
