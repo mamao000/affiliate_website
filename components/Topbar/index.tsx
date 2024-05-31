@@ -1,7 +1,7 @@
 "use client";
 import Nav from "react-bootstrap/Nav";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   NavBar,
   NavBarBrand,
@@ -14,14 +14,19 @@ import {
   SideBarLink,
   SideBarHeader,
 } from "./styled";
-import ListGroup from "react-bootstrap/ListGroup";
 
 const Topbar = () => {
   const [show, setShow] = useState(false);
 
+  const [currentPath, setCurrentPath] = useState("");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setCurrentPath(window.location.pathname);
+    }
+  }, []);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   return (
     <NavBar
       bg="dark"
@@ -33,15 +38,15 @@ const Topbar = () => {
           <MenuIcon src="menu.svg" alt="Menu" />
         </MenuButton>
         <NavBarBrand>Mamao</NavBarBrand>
-        <Navigation variant="underline" defaultActiveKey="/home">
+        <Navigation variant="underline" activeKey={currentPath}>
           <Navigation.Item>
-            <Nav.Link href="/home">Home</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
           </Navigation.Item>
           <Navigation.Item>
-            <Nav.Link eventKey="/about">About</Nav.Link>
+            <Nav.Link href="/about">About</Nav.Link>
           </Navigation.Item>
           <Navigation.Item>
-            <Nav.Link href="/pricing">Pricing</Nav.Link>
+            <Nav.Link href="/register">Login</Nav.Link>
           </Navigation.Item>
         </Navigation>
         <Offcanvas show={show} onHide={handleClose} className="offcanvas-dark">
@@ -50,7 +55,7 @@ const Topbar = () => {
           </SideBarHeader>
           <Offcanvas.Body className="bg-dark text-white">
             <SideBarItem>
-              <SideBarLink href="/home">Home</SideBarLink>
+              <SideBarLink href="/">Home</SideBarLink>
             </SideBarItem>
             <Separator />
             <SideBarItem>
@@ -58,7 +63,7 @@ const Topbar = () => {
             </SideBarItem>
             <Separator />
             <SideBarItem>
-              <SideBarLink href="/pricing">Pricing</SideBarLink>
+              <SideBarLink href="/register">Login</SideBarLink>
             </SideBarItem>
             <Separator />
           </Offcanvas.Body>
