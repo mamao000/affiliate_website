@@ -38,7 +38,7 @@ const Topbar = () => {
           <MenuIcon src="menu.svg" alt="Menu" />
         </MenuButton>
         <NavBarBrand>Mamao</NavBarBrand>
-        <Navigation variant="underline" activeKey={currentPath}>
+        <Navigation>
           <Navigation.Item>
             <Nav.Link href="/">Home</Nav.Link>
           </Navigation.Item>
@@ -46,7 +46,7 @@ const Topbar = () => {
             <Nav.Link href="/about">About</Nav.Link>
           </Navigation.Item>
           <Navigation.Item>
-            <Nav.Link href="/register">Login</Nav.Link>
+            <Nav.Link href="/login">Login</Nav.Link>
           </Navigation.Item>
         </Navigation>
         <Offcanvas show={show} onHide={handleClose} className="offcanvas-dark">

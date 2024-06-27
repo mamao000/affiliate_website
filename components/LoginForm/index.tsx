@@ -3,54 +3,36 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { superbaseClient } from "@/app/lib/superbaseClient";
 import Alert from "react-bootstrap/Alert";
-import { useMutation, gql } from "@apollo/client";
-import Col from "react-bootstrap/Col";
+import { useRouter } from "next/navigation";
 import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import { useState } from "react";
-import { ValidateMessage, ValidateWrapper, SubmitButton } from "./styled";
+import { useState, useEffect } from "react";
+import { SubmitButton, ValidateMessage, ValidateWrapper } from "./styled";
 import Image from "next/image";
 
-const CREATE_USER_MUTATION = gql`
-  mutation CreateUser($id: String!, $name: String!, $email: String!) {
-    createUser(id: $id, name: $name, email: $email) {
-      id
-      name
-      email
-    }
-  }
-`;
+// async function testloading() {
+//   await new Promise((resolve) => setTimeout(resolve, 3000));
+// }
 
-const RegisterForm = () => {
+const LoginForm = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const router = useRouter();
 
-  const [createUser, { loading, error }] = useMutation(CREATE_USER_MUTATION);
   const formik = useFormik({
     initialValues: {
-      Name: "",
       email: "",
       password: "",
-      confirmPassword: "",
     },
     validationSchema: Yup.object({
-      Name: Yup.string()
-        .max(20, "Must be 20 characters or less")
-        .required("Required"),
       email: Yup.string().email("Invalid email address").required("Required"),
-      password: Yup.string()
-        .min(8, "Password must be at least 8 characters")
-        .required("Required"),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref("password")], "Passwords must match")
-        .required("Required"),
+      password: Yup.string().required("Required"),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       const supabase = superbaseClient();
       console.log("data", values);
 
       try {
-        const signUpResponse = await supabase.auth.signUp({
+        const signUpResponse = await supabase.auth.signInWithPassword({
           email: values.email,
           password: values.password,
         });
@@ -60,14 +42,7 @@ const RegisterForm = () => {
         }
 
         console.log("id", signUpResponse.data?.user?.id);
-
-        await createUser({
-          variables: {
-            id: signUpResponse.data?.user?.id,
-            name: values.Name,
-            email: values.email,
-          },
-        });
+        router.push("/");
       } catch (error) {
         console.error("An error occurred:", (error as Error).message);
         setAlertMessage("An error occurred: " + (error as Error).message);
@@ -85,25 +60,6 @@ const RegisterForm = () => {
           {alertMessage}
         </Alert>
       )}
-      <Row className="mb-3">
-        <Form.Group as={Col}>
-          <Form.Label htmlFor="Name">Name</Form.Label>
-          <Form.Control
-            id="Name"
-            name="Name"
-            type="text"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.Name}
-          />
-          {formik.touched.Name && formik.errors.Name ? (
-            <ValidateWrapper>
-              <Image src="/alert.svg" alt="error" width={12} height={12} />
-              <ValidateMessage>{formik.errors.Name}</ValidateMessage>
-            </ValidateWrapper>
-          ) : null}
-        </Form.Group>
-      </Row>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="email">Email Address</Form.Label>
         <Form.Control
@@ -138,26 +94,9 @@ const RegisterForm = () => {
           </ValidateWrapper>
         ) : null}
       </Form.Group>
-      <Form.Group className="mb-3">
-        <Form.Label htmlFor="confirmPassword">Confirm Password</Form.Label>
-        <Form.Control
-          id="confirmPassword"
-          name="confirmPassword"
-          type="password"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.confirmPassword}
-        />
-        {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-          <ValidateWrapper>
-            <Image src="/alert.svg" alt="error" width={12} height={12} />
-            <ValidateMessage>{formik.errors.confirmPassword}</ValidateMessage>
-          </ValidateWrapper>
-        ) : null}
-      </Form.Group>
       <SubmitButton type="submit">Submit</SubmitButton>
     </Form>
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

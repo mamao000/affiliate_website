@@ -1,12 +1,16 @@
 "use client";
 import React from "react";
 import RegisterForm from "@/components/RegisterForm";
-import { FormWrapper } from "./styled";
+import { FormWrapper, LoginWrapper, LoginLink } from "./styled";
+
 const Register = () => {
   return (
     <FormWrapper>
-      <h2>登入頁面</h2>
+      <h2>Member Registration</h2>
       <RegisterForm />
+      <LoginWrapper>
+        Already have an account? <LoginLink href="/login">Login</LoginLink>
+      </LoginWrapper>
     </FormWrapper>
   );
 };

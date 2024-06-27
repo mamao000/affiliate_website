@@ -70,8 +70,7 @@ const resolvers = {
             ]
           }
         });
-  
-        // If user already exists, throw an error
+        
         if (existingUser) {
           throw new Error('User already exists');
         }

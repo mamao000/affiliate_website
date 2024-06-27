@@ -12,7 +12,6 @@ export default function Home() {
       <Header />
       {/* <ContentImage src="/test_image.webp" />
       <Content /> */}
-      <PostList />
     </Container>
   );
 }

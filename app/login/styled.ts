@@ -1,3 +1,4 @@
+"use client";
 import styled from "styled-components";
 import { BREAKPOINT } from "@/constants";
 
@@ -13,12 +14,12 @@ export const FormWrapper = styled.div`
     }
 `;
 
-export const LoginWrapper = styled.div`
+export const RegisterWrapper = styled.div`
     margin-top: 1rem;
     width: 100%;
 `
 
-export const LoginLink = styled.a`
+export const RegisterLink = styled.a`
     border-radius: 4px;
     color: rgb(30, 159, 210);
     font-size: 14px;
